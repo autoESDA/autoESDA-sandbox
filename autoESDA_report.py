@@ -1,4 +1,17 @@
-def autoESDA_report():
+import geopandas as gpd
+import pysal as ps
+import matplotlib.pyplot as plt
+import libpysal as lps
+from esda.moran import (Moran, Moran_Local)
+from splot.esda import (moran_scatterplot, lisa_cluster, plot_moran_simulation)
+from matplotlib.offsetbox import AnchoredText
+import seaborn as sns
+from seaborn import heatmap
+import io
+import base64
+
+def autoESDA_report(mygdf):
+    gdf = mygdf
 
     numeric_columns = list(gdf.select_dtypes(include=["int64","float64"]).columns)
     excluded_columns = set(list(gdf.columns))-set(numeric_columns)
@@ -309,3 +322,6 @@ def autoESDA_report():
     file.write(html_string)
     file.close()
     print("done")
+
+mygdf = gpd.read_file(r'example-data\rsa-census-jhb-wards\COJ_Descriptive.shp')
+autoESDA_report(mygdf)
